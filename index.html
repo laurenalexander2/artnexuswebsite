@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Art Nexus</title>
 
-  <!-- Modern sans-serif -->
+  <!-- Inter font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
 
   <style>
@@ -15,6 +15,7 @@
 
       --nav-idle: #cccccc;
       --nav-hover: #ffffff;
+
       --transition: 0.75s ease;
     }
 
@@ -23,12 +24,12 @@
       padding: 0;
       background: #000;
       color: #fff;
-      overflow: hidden;         /* SCENE CONTROL — prevents raw scrolling */
+      overflow: hidden; /* scene-based, no raw scroll */
       font-family: var(--sans);
     }
 
     /* ===========================
-       HEADER / NAV
+       HEADER
     ============================ */
     #drop-header {
       position: fixed;
@@ -36,7 +37,7 @@
       left: 0;
       width: 100%;
       height: 80px;
-      background: rgba(10, 10, 10, 0.92);
+      background: rgba(10,10,10,0.92);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -50,8 +51,8 @@
       color: var(--nav-idle);
       text-decoration: none;
       font-weight: 300;
-      transition: color 0.3s ease, font-style 0.3s ease;
       cursor: pointer;
+      transition: color 0.1s ease, font-style 0.1s ease;
     }
 
     #drop-header a:hover {
@@ -60,7 +61,7 @@
     }
 
     /* ===========================
-       SCENE CONTAINER
+       SCENE SYSTEM
     ============================ */
     .scene-container {
       position: relative;
@@ -71,13 +72,12 @@
 
     .scene {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       opacity: 0;
-      transform: translateY(40px);   /* slip-up offset */
-      transition: opacity var(--transition), transform var(--transition);
+      transform: translateY(40px);
+      transition: opacity var(--transition),
+                  transform var(--transition);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -89,15 +89,54 @@
       pointer-events: auto;
     }
 
+    .scene-block {
+      max-width: 780px;
+      padding: 0 40px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .scene-title {
+      font-family: var(--serif);
+      font-size: 52px;
+      margin-bottom: 18px;
+    }
+
+    .scene-body {
+      font-family: var(--sans);
+      font-size: 18px;
+      line-height: 1.7;
+      margin: 10px 0;
+      opacity: 0.9;
+    }
+
+    .scene-body-quiet {
+      font-size: 16px;
+      opacity: 0.78;
+      margin-top: 20px;
+    }
+
+    .scene-bullets {
+      margin: 18px 0 0;
+      padding-left: 18px;
+      font-size: 18px;
+      line-height: 1.7;
+      opacity: 0.9;
+    }
+
+    .scene-bullets li {
+      margin-bottom: 4px;
+    }
+
     /* ===========================
-       HERO CONTENT
+       HERO SECTION
     ============================ */
     .intro-inner {
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 24px;
       text-align: center;
+      align-items: center;
     }
 
     .title-row {
@@ -109,10 +148,10 @@
     .title-row h1 {
       font-family: var(--serif);
       font-size: 96px;
-      font-weight: 400;
       margin: 0;
       opacity: 0;
       animation: fadeIn 1.4s forwards 0.4s;
+      font-weight: 400;
     }
 
     .logo-video {
@@ -131,18 +170,12 @@
     }
 
     #delayed-sub {
-      font-size: 28px;
-      font-weight: 300;
       opacity: 0;
+      font-size: 24px;
+      font-weight: 300;
+      max-width: 720px;
+      line-height: 1.5;
       transition: opacity 1.4s ease;
-    }
-
-    /* ===========================
-       OTHER SCENES (simple titles)
-    ============================ */
-    .scene-title {
-      font-family: var(--serif);
-      font-size: 64px;
     }
 
     /* ===========================
@@ -155,10 +188,10 @@
       transform: translateX(-50%);
       font-size: 32px;
       opacity: 0;
-      transition: bottom 1.2s ease, opacity 1.2s ease, transform 0.25s ease;
       cursor: pointer;
-      z-index: 999;
+      transition: bottom 1.2s ease, opacity 1.2s ease, transform 0.25s ease;
       font-weight: 300;
+      z-index: 900;
     }
 
     #rise-arrow:hover {
@@ -171,11 +204,31 @@
       bottom: 85px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 20px;
+      font-size: 18px;
       opacity: 0;
       transition: opacity 0.3s ease;
       pointer-events: none;
+      z-index: 900;
+    }
+
+    /* ===========================
+       PROTOTYPE BUTTON
+    ============================ */
+    #prototype-btn {
+      padding: 18px 32px;
+      background: white;
+      color: black;
       font-family: var(--sans);
+      border-radius: 4px;
+      font-size: 20px;
+      cursor: pointer;
+      display: none; /* only on last page */
+      transition: 0.3s ease;
+      border: none;
+    }
+
+    #prototype-btn:hover {
+      opacity: 0.85;
     }
 
     @keyframes fadeIn { to { opacity: 1; } }
@@ -190,18 +243,16 @@
     <a data-target="1">What We're Building</a>
     <a data-target="2">For Institutions</a>
     <a data-target="3">For Users</a>
+    <a data-target="4">The Prototype</a>
   </div>
 
   <!-- ARROW + PREVIEW -->
   <div id="rise-arrow">⌄</div>
   <div id="next-preview"></div>
 
-  <!-- ===========================
-       SCENE SYSTEM
-  ============================ -->
   <div class="scene-container">
 
-    <!-- Scene 0: INTRO -->
+    <!-- Scene 0 — HERO -->
     <div class="scene active" id="scene-0">
       <div class="intro-inner">
         <div class="title-row">
@@ -212,23 +263,93 @@
           </div>
           <h1>Art Nexus</h1>
         </div>
-        <h2 id="delayed-sub">The search layer for cultural knowledge.</h2>
+        <h2 id="delayed-sub">
+          Semantic search for museum collections — how humanity will access its archives.
+        </h2>
       </div>
     </div>
 
-    <!-- Scene 1 -->
+    <!-- Scene 1 — WHAT WE'RE BUILDING -->
     <div class="scene" id="scene-1">
-      <div class="scene-title">WHAT WE'RE BUILDING</div>
+      <div class="scene-block">
+        <div class="scene-title">What we’re building</div>
+        <p class="scene-body">
+          Today, art collections are the world’s largest unstructured knowledge base, trapped in silos that don’t talk to each other.
+          Art Nexus is the missing infrastructure: a semantic layer that lets collections think together.
+        </p>
+        <p class="scene-body">
+          We ingest collection records and media, generate domain-trained multimodal embeddings (text + image + metadata),
+          and map that information into an evolving cultural knowledge graph. Objects become discoverable by meaning,
+          relationships, iconography, provenance, technique, style, or conceptual connection—not just keyword matches.
+        </p>
+        <p class="scene-body">
+          By plotting in vector space a digital twin of every known art piece, this is the interface to humanity’s archives.
+        </p>
+      </div>
     </div>
 
-    <!-- Scene 2 -->
+    <!-- Scene 2 — FOR INSTITUTIONS -->
     <div class="scene" id="scene-2">
-      <div class="scene-title">FOR INSTITUTIONS</div>
+      <div class="scene-block">
+        <div class="scene-title">For institutions</div>
+        <p class="scene-body">
+          Art Nexus sits on top of existing collection systems and turns static records into a living, searchable network.
+          Instead of brittle keyword fields and siloed databases, curators and registrars get a semantic map of their holdings—
+          and, eventually, of the world’s collections.
+        </p>
+        <ul class="scene-bullets">
+          <li>Unify siloed databases into a single semantic layer.</li>
+          <li>Search by concept: “surrealist female portrait, 1950s, lithograph” — not exact field matches.</li>
+          <li>Reveal latent connections: shared iconography, technical affinities, workshop lineages, provenance trails.</li>
+          <li>Support research, exhibitions, and loans with cross-collection discovery.</li>
+        </ul>
+        <p class="scene-body-quiet">
+          Art Nexus is designed as an institutional discovery layer and a foundation for future integrations with
+          vector databases, vocabularies, and curator-facing tools.
+        </p>
+      </div>
     </div>
 
-    <!-- Scene 3 -->
+    <!-- Scene 3 — FOR USERS -->
     <div class="scene" id="scene-3">
-      <div class="scene-title">FOR USERS</div>
+      <div class="scene-block">
+        <div class="scene-title">For users</div>
+        <p class="scene-body">
+          For researchers, students, and everyday visitors, Art Nexus feels like a search engine built for art,
+          not for the web. You describe what you’re looking for in natural language, and the system returns
+          meaning-linked neighbors across collections.
+        </p>
+        <ul class="scene-bullets">
+          <li>Search by feeling, motif, technique, or narrative instead of object IDs and accession numbers.</li>
+          <li>Follow visual and conceptual “threads” through time, place, and medium.</li>
+          <li>Surface overlooked objects that sit just outside canonical labels or cataloging vocabularies.</li>
+          <li>Use similarity search to explore “more like this” across institutions, not just within one museum.</li>
+        </ul>
+        <p class="scene-body-quiet">
+          The goal is an interface where someone curious about “early feminist printmaking,” “diasporic surrealism,”
+          or “ritual bronze vessels with animal handles” can step directly into the relevant constellation of works.
+        </p>
+      </div>
+    </div>
+
+    <!-- Scene 4 — THE PROTOTYPE -->
+    <div class="scene" id="scene-4">
+      <div class="scene-block" style="text-align:center;">
+        <div class="scene-title">The prototype</div>
+        <p class="scene-body">
+          The current prototype ingests collection exports (CSV + image hierarchy), generates embeddings,
+          indexes metadata, and performs semantic retrieval. A query is converted into the same embedding space
+          as the objects, and the system returns meaning-linked similarity results across the dataset.
+        </p>
+        <p class="scene-body-quiet">
+          In the demo, a museum can upload a Met-style open-access CSV, watch the index build in batches,
+          and immediately run semantic searches over hundreds of thousands of objects—no schema rewrites,
+          no keyword engineering.
+        </p>
+        <button id="prototype-btn">
+          Try the prototype →
+        </button>
+      </div>
     </div>
 
   </div>
@@ -239,17 +360,22 @@
       const arrow = document.getElementById("rise-arrow");
       const subtitle = document.getElementById("delayed-sub");
       const nextPreview = document.getElementById("next-preview");
+      const prototypeBtn = document.getElementById("prototype-btn");
 
       const scenes = document.querySelectorAll(".scene");
+
       const titles = [
-        "",
+        "Home",
         "What we're building",
         "For institutions",
         "For users",
-        ""
+        "The Prototype",
+        ""  // last scene has no next
       ];
 
       let currentScene = 0;
+      let arrowIsHovered = false;
+      let isTransitioning = false;
 
       /* Reveal header + arrow + subtitle */
       setTimeout(() => {
@@ -259,39 +385,67 @@
         subtitle.style.opacity = "1";
       }, 3000);
 
-      /* Change scene with fade + slip animation */
+      function updatePreview() {
+        const next = Math.min(currentScene + 1, scenes.length - 1);
+        const label = titles[next];
+
+        nextPreview.textContent = label || "";
+        nextPreview.style.opacity = arrowIsHovered && label ? "1" : "0";
+      }
+
       function goToScene(index) {
-        if (index < 0 || index >= scenes.length) return;
-        
+        if (isTransitioning || index === currentScene || index < 0 || index >= scenes.length) return;
+
+        isTransitioning = true;
+
         scenes[currentScene].classList.remove("active");
         currentScene = index;
         scenes[currentScene].classList.add("active");
+
+        if (currentScene === scenes.length - 1) {
+          arrow.style.opacity = "0";
+          arrow.style.pointerEvents = "none";
+          nextPreview.style.opacity = "0";
+          prototypeBtn.style.display = "inline-block";
+        } else {
+          arrow.style.opacity = "0.9";
+          arrow.style.pointerEvents = "auto";
+          prototypeBtn.style.display = "none";
+        }
+
+        updatePreview();
+        setTimeout(() => (isTransitioning = false), 800);
       }
 
-      /* Arrow hover shows next title */
+      /* Arrow hover */
       arrow.addEventListener("mouseenter", () => {
-        const next = Math.min(currentScene + 1, scenes.length - 1);
-        const label = titles[next];
-        nextPreview.textContent = label;
-        nextPreview.style.opacity = label ? "1" : "0";
+        arrowIsHovered = true;
+        updatePreview();
       });
 
       arrow.addEventListener("mouseleave", () => {
+        arrowIsHovered = false;
         nextPreview.style.opacity = "0";
       });
 
-      /* Arrow click goes to next scene */
+      /* Arrow click → next scene */
       arrow.addEventListener("click", () => {
-        const next = Math.min(currentScene + 1, scenes.length - 1);
-        goToScene(next);
+        goToScene(currentScene + 1);
       });
 
-      /* Header links jump to scenes */
+      /* Header nav */
       document.querySelectorAll("#drop-header a").forEach(link => {
         link.addEventListener("click", () => {
-          const target = parseInt(link.dataset.target);
+          const target = parseInt(link.dataset.target, 10);
           goToScene(target);
         });
+      });
+
+      /* Prototype button – wire this up later */
+      prototypeBtn.addEventListener("click", () => {
+        // Replace with your actual prototype URL when ready:
+        // window.open("https://your-demo-url.com", "_blank");
+        console.log("Prototype button clicked");
       });
     });
   </script>
