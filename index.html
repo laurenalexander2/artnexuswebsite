@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Art Nexus</title>
+
+  <!-- Modern sans-serif -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --serif: "Times New Roman", serif;
+      --sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
+      --nav-idle: #cccccc;
+      --nav-hover: #ffffff;
+      --transition: 0.75s ease;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #fff;
+      overflow: hidden;         /* SCENE CONTROL — prevents raw scrolling */
+      font-family: var(--sans);
+    }
+
+    /* ===========================
+       HEADER / NAV
+    ============================ */
+    #drop-header {
+      position: fixed;
+      top: -80px;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      background: rgba(10, 10, 10, 0.92);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+      font-size: 20px;
+      transition: top 1.2s ease;
+      z-index: 1000;
+    }
+
+    #drop-header a {
+      color: var(--nav-idle);
+      text-decoration: none;
+      font-weight: 300;
+      transition: color 0.3s ease, font-style 0.3s ease;
+      cursor: pointer;
+    }
+
+    #drop-header a:hover {
+      color: var(--nav-hover);
+      font-style: italic;
+    }
+
+    /* ===========================
+       SCENE CONTAINER
+    ============================ */
+    .scene-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .scene {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transform: translateY(40px);   /* slip-up offset */
+      transition: opacity var(--transition), transform var(--transition);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .scene.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* ===========================
+       HERO CONTENT
+    ============================ */
+    .intro-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      text-align: center;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .title-row h1 {
+      font-family: var(--serif);
+      font-size: 96px;
+      font-weight: 400;
+      margin: 0;
+      opacity: 0;
+      animation: fadeIn 1.4s forwards 0.4s;
+    }
+
+    .logo-video {
+      height: 96px;
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeIn 0.4s forwards 0.1s;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-video video {
+      height: 100%;
+      width: auto;
+      object-fit: cover;
+    }
+
+    #delayed-sub {
+      font-size: 28px;
+      font-weight: 300;
+      opacity: 0;
+      transition: opacity 1.4s ease;
+    }
+
+    /* ===========================
+       OTHER SCENES (simple titles)
+    ============================ */
+    .scene-title {
+      font-family: var(--serif);
+      font-size: 64px;
+    }
+
+    /* ===========================
+       ARROW + PREVIEW
+    ============================ */
+    #rise-arrow {
+      position: fixed;
+      bottom: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 32px;
+      opacity: 0;
+      transition: bottom 1.2s ease, opacity 1.2s ease, transform 0.25s ease;
+      cursor: pointer;
+      z-index: 999;
+      font-weight: 300;
+    }
+
+    #rise-arrow:hover {
+      transform: translateX(-50%) scale(1.1);
+      opacity: 1;
+    }
+
+    #next-preview {
+      position: fixed;
+      bottom: 85px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      font-family: var(--sans);
+    }
+
+    @keyframes fadeIn { to { opacity: 1; } }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <div id="drop-header">
+    <a data-target="0">Home</a>
+    <a data-target="1">What We're Building</a>
+    <a data-target="2">For Institutions</a>
+    <a data-target="3">For Users</a>
+  </div>
+
+  <!-- ARROW + PREVIEW -->
+  <div id="rise-arrow">⌄</div>
+  <div id="next-preview"></div>
+
+  <!-- ===========================
+       SCENE SYSTEM
+  ============================ -->
+  <div class="scene-container">
+
+    <!-- Scene 0: INTRO -->
+    <div class="scene active" id="scene-0">
+      <div class="intro-inner">
+        <div class="title-row">
+          <div class="logo-video">
+            <video autoplay muted playsinline>
+              <source src="trimmed space.mov" type="video/mp4" />
+            </video>
+          </div>
+          <h1>Art Nexus</h1>
+        </div>
+        <h2 id="delayed-sub">The search layer for cultural knowledge.</h2>
+      </div>
+    </div>
+
+    <!-- Scene 1 -->
+    <div class="scene" id="scene-1">
+      <div class="scene-title">WHAT WE'RE BUILDING</div>
+    </div>
+
+    <!-- Scene 2 -->
+    <div class="scene" id="scene-2">
+      <div class="scene-title">FOR INSTITUTIONS</div>
+    </div>
+
+    <!-- Scene 3 -->
+    <div class="scene" id="scene-3">
+      <div class="scene-title">FOR USERS</div>
+    </div>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const header = document.getElementById("drop-header");
+      const arrow = document.getElementById("rise-arrow");
+      const subtitle = document.getElementById("delayed-sub");
+      const nextPreview = document.getElementById("next-preview");
+
+      const scenes = document.querySelectorAll(".scene");
+      const titles = [
+        "",
+        "What we're building",
+        "For institutions",
+        "For users",
+        ""
+      ];
+
+      let currentScene = 0;
+
+      /* Reveal header + arrow + subtitle */
+      setTimeout(() => {
+        header.style.top = "0";
+        arrow.style.bottom = "40px";
+        arrow.style.opacity = "0.9";
+        subtitle.style.opacity = "1";
+      }, 3000);
+
+      /* Change scene with fade + slip animation */
+      function goToScene(index) {
+        if (index < 0 || index >= scenes.length) return;
+        
+        scenes[currentScene].classList.remove("active");
+        currentScene = index;
+        scenes[currentScene].classList.add("active");
+      }
+
+      /* Arrow hover shows next title */
+      arrow.addEventListener("mouseenter", () => {
+        const next = Math.min(currentScene + 1, scenes.length - 1);
+        const label = titles[next];
+        nextPreview.textContent = label;
+        nextPreview.style.opacity = label ? "1" : "0";
+      });
+
+      arrow.addEventListener("mouseleave", () => {
+        nextPreview.style.opacity = "0";
+      });
+
+      /* Arrow click goes to next scene */
+      arrow.addEventListener("click", () => {
+        const next = Math.min(currentScene + 1, scenes.length - 1);
+        goToScene(next);
+      });
+
+      /* Header links jump to scenes */
+      document.querySelectorAll("#drop-header a").forEach(link => {
+        link.addEventListener("click", () => {
+          const target = parseInt(link.dataset.target);
+          goToScene(target);
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
