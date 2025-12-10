@@ -212,9 +212,10 @@
     }
 
     /* ===========================
-       PROTOTYPE BUTTON
+       PROTOTYPE BUTTONS
     ============================ */
-    #prototype-btn {
+    #prototype-btn,
+    #repo-btn {
       padding: 18px 32px;
       background: white;
       color: black;
@@ -222,12 +223,14 @@
       border-radius: 4px;
       font-size: 20px;
       cursor: pointer;
-      display: none; /* only on last page */
+      display: none; /* shown only in last scene */
       transition: 0.3s ease;
       border: none;
+      margin-top: 16px;
     }
 
-    #prototype-btn:hover {
+    #prototype-btn:hover,
+    #repo-btn:hover {
       opacity: 0.85;
     }
 
@@ -346,8 +349,13 @@
           and immediately run semantic searches over hundreds of thousands of objects—no schema rewrites,
           no keyword engineering.
         </p>
+
         <button id="prototype-btn">
           Try the prototype →
+        </button>
+
+        <button id="repo-btn">
+          View the repo →
         </button>
       </div>
     </div>
@@ -361,6 +369,7 @@
       const subtitle = document.getElementById("delayed-sub");
       const nextPreview = document.getElementById("next-preview");
       const prototypeBtn = document.getElementById("prototype-btn");
+      const repoBtn = document.getElementById("repo-btn");
 
       const scenes = document.querySelectorAll(".scene");
 
@@ -406,18 +415,22 @@
           arrow.style.opacity = "0";
           arrow.style.pointerEvents = "none";
           nextPreview.style.opacity = "0";
+
           prototypeBtn.style.display = "inline-block";
+          repoBtn.style.display = "inline-block";
         } else {
           arrow.style.opacity = "0.9";
           arrow.style.pointerEvents = "auto";
+
           prototypeBtn.style.display = "none";
+          repoBtn.style.display = "none";
         }
 
         updatePreview();
         setTimeout(() => (isTransitioning = false), 800);
       }
 
-      /* Arrow hover */
+      /* Hover */
       arrow.addEventListener("mouseenter", () => {
         arrowIsHovered = true;
         updatePreview();
@@ -428,7 +441,7 @@
         nextPreview.style.opacity = "0";
       });
 
-      /* Arrow click → next scene */
+      /* Arrow click → next */
       arrow.addEventListener("click", () => {
         goToScene(currentScene + 1);
       });
@@ -441,11 +454,13 @@
         });
       });
 
-      /* Prototype button – wire this up later */
+      /* Buttons */
       prototypeBtn.addEventListener("click", () => {
-        // Replace with your actual prototype URL when ready:
-        // window.open("https://your-demo-url.com", "_blank");
-        console.log("Prototype button clicked");
+        window.open("https://art-vector-production.up.railway.app", "_blank");
+      });
+
+      repoBtn.addEventListener("click", () => {
+        window.open("https://github.com/yourusername/yourrepo", "_blank");
       });
     });
   </script>
